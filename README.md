@@ -1,6 +1,7 @@
 # Validata Koa
 
-Type safe data validation and sanitization for Koa requests (body, query, headers, params) using [validata](https://www.npmjs.com/package/validata).
+Type safe data validation and sanitization for [Koa](https://www.npmjs.com/package/koa) requests
+(body, query, headers, params) using [validata](https://www.npmjs.com/package/validata).
 
 See [validata](https://www.npmjs.com/package/validata) for more details on validation functionality.
 
