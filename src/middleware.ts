@@ -2,6 +2,7 @@ import { Middleware, Next } from 'koa';
 import { isIssue, Issue, isValue, ValueProcessor } from 'validata';
 import { RequestContext } from './middleware.types';
 import { Statuses } from './statuses';
+import { ValidationError } from './validation-error';
 
 export interface ValidateOptions<B, H, Q> {
   body?: ValueProcessor<B>,
@@ -50,4 +51,14 @@ export const validateRequest = <B, H, Q>({ body, query, header }: ValidateOption
     };
   }
   await next();
+};
+
+export const validate = (): Middleware<any, RequestContext> => async (ctx: RequestContext, next: Next): Promise<void> => {
+  try {
+    await next();
+  } catch (err) {
+    if (!(err instanceof ValidationError)) throw err;
+    ctx.body = { issues: err.issues };
+    ctx.status = Statuses.BAD_REQUEST;
+  }
 };
