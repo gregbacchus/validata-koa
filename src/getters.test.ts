@@ -1,11 +1,13 @@
 import { describeGiven, when } from '@geeebe/jest-bdd';
 import Router from '@koa/router';
+import { internet, name, random } from 'faker';
 import { Server } from 'http';
 import Koa, { Context } from 'koa';
 import bodyParser from 'koa-bodyparser';
 import request from 'supertest';
-import { asNumber, isObject } from 'validata';
-import { headers, params } from './getters';
+import { asNumber, isObject, isString, Issue, maybeString } from 'validata';
+import validator from 'validator';
+import { body, headers, params } from './getters';
 import { validate } from './middleware';
 import { RequestContext } from './middleware.types';
 import { Statuses } from './statuses';
@@ -151,6 +153,99 @@ describe('headers', () => {
         expect(response.body).toStrictEqual(
           { 'issues': [{ 'path': ['#', 'x-my-header'], 'reason': 'no-conversion', 'value': 'testing' }] }
         );
+      });
+    });
+  });
+});
+
+describe('request body', () => {
+  describeGiven('koa is configured with param check', () => {
+    interface MyBody {
+      age: number;
+      email?: string;
+      name: string;
+    }
+    const given = () => {
+      const server = startTestServer((ctx) => {
+        const check = isObject<MyBody>({
+          age: asNumber({ min: 0, coerceMax: 120 }),
+          email: maybeString({ validator: validator.isEmail }),
+          name: isString(),
+        });
+        return body(ctx, check);
+      });
+      return { server };
+    };
+
+    when('POST is called with an empty body', () => {
+      const { server } = given();
+      afterAll(() => server.close());
+
+      const promise = request(server)
+        .post('/12')
+        .send({});
+
+      it('will fail with 2 issues', async () => {
+        const response = await promise;
+
+        expect(response.status).toBe(Statuses.BAD_REQUEST);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const issues: Issue[] = response.body.issues;
+        if (!issues) fail('No issues returned');
+        expect(issues.length).toBe(2);
+        expect(issues).toContainEqual({ 'path': ['age'], 'reason': 'not-defined' });
+        expect(issues).toContainEqual({ 'path': ['name'], 'reason': 'not-defined' });
+      });
+    });
+
+    when('POST is called with valid request', () => {
+      const { server } = given();
+      afterAll(() => server.close());
+
+      const data = {
+        age: 300,
+        email: internet.email(),
+        name: name.findName(),
+      };
+      const promise = request(server)
+        .post('/12')
+        .send(data);
+
+      it('will succeed and coerce age', async () => {
+        const response = await promise;
+
+        expect(response.status).toBe(Statuses.OK);
+        expect(response.body).toStrictEqual({
+          age: 120,
+          email: data.email,
+          name: data.name,
+        });
+      });
+    });
+
+    when('POST is called with body containing additional properties', () => {
+      const { server } = given();
+      afterAll(() => server.close());
+
+      const data = {
+        age: 300,
+        email: internet.email(),
+        name: name.findName(),
+        extra: random.word(),
+      };
+      const promise = request(server)
+        .post('/12')
+        .send(data);
+
+      it('will fail', async () => {
+        const response = await promise;
+
+        expect(response.status).toBe(Statuses.BAD_REQUEST);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const issues: Issue[] = response.body.issues;
+        if (!issues) fail('No issues returned');
+        expect(issues.length).toBe(1);
+        expect(issues).toContainEqual({ 'path': ['extra'], 'reason': 'unexpected-property', 'value': data.extra });
       });
     });
   });

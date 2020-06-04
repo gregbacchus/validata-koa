@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import { isIssue, ValueProcessor } from 'validata';
 import { ValidationError } from './validation-error';
 
-export const body = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.body as unknown);
+export const body = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.request.body as unknown);
 export const headers = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.header as unknown, '#');
 export const params = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.params as unknown, ':');
 export const query = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.query as unknown, '?');
