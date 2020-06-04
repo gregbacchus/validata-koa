@@ -57,7 +57,7 @@ export const validate = (): Middleware<any, RequestContext> => async (ctx: Reque
   try {
     await next();
   } catch (err) {
-    if (!(err instanceof ValidationError)) throw err;
+    if (!(err instanceof ValidationError) || !('issues' in err)) throw err;
     ctx.body = { issues: err.issues };
     ctx.status = Statuses.BAD_REQUEST;
   }
