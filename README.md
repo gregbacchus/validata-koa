@@ -21,7 +21,7 @@ import Koa, { Context } from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { asNumber, isObject, isString, maybeString } from 'validata';
 import validator from 'validator';
-import { body, Statuses, validate } from 'validator-koa';
+import { body, Statuses, validate } from 'validata-koa';
 
 interface Body {
   age: number;
@@ -59,7 +59,7 @@ app.listen(8081);
 import Router from '@koa/router';
 import Koa, { Context } from 'koa';
 import { asNumber, isObject, isString, maybeAsNumber } from 'validata';
-import { params, query, Statuses, validate } from '..';
+import { params, query, Statuses, validate } from 'validata-koa';
 
 interface Params {
   id: number;
