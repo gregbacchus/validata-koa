@@ -98,7 +98,7 @@ describe('params', () => {
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
         expect(response.body).toStrictEqual(
-          { 'issues': [{ 'path': [':', 'id'], 'reason': 'no-conversion', 'value': 'testing' }] }
+          { 'issues': [{ 'info': { 'toType': 'number' }, 'path': [':', 'id'], 'reason': 'no-conversion', 'value': 'testing' }] }
         );
       });
     });
@@ -151,7 +151,7 @@ describe('headers', () => {
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
         expect(response.body).toStrictEqual(
-          { 'issues': [{ 'path': ['#', 'x-my-header'], 'reason': 'no-conversion', 'value': 'testing' }] }
+          { 'issues': [{ 'info': { 'toType': 'number' }, 'path': ['#', 'x-my-header'], 'reason': 'no-conversion', 'value': 'testing' }] }
         );
       });
     });
