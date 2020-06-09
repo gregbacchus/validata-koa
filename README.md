@@ -102,7 +102,7 @@ Testing it out...
 ```bash
 curl -XPOST localhost:8081/foo
 # status=400
-# {"issues":[{"path":[":","id"],"value":"foo","reason":"no-conversion"}]}
+# {"issues":[{"path":[":","id"],"value":"foo","reason":"no-conversion","info":{"toType":"number"}}]}
 
 curl -XPOST localhost:8081/12
 # status=400
@@ -114,7 +114,7 @@ curl -XPOST localhost:8081/12?filter=test
 
 curl -XPOST localhost:8081/-2?filter=test
 # status=400
-# {"issues":[{"path":[":","id"],"value":-2,"reason":"min"}]}
+# {"issues":[{"path":[":","id"],"value":-2,"reason":"min","info":{"min":0}}]}
 ```
 
 ### Headers
