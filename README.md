@@ -16,9 +16,10 @@ npm i validata validata-koa
 ### Body checking
 
 ```typescript
-import Router from '@koa/router';
-import Koa, { Context } from 'koa';
-import bodyParser from 'koa-bodyparser';
+import * as Router from '@koa/router';
+import * as Koa from 'koa';
+import { Context } from 'koa';
+import * as bodyParser from 'koa-bodyparser';
 import { asNumber, isObject, isString, maybeString } from 'validata';
 import validator from 'validator';
 import { body, Statuses, validate } from 'validata-koa';
@@ -56,8 +57,9 @@ app.listen(8081);
 ### Params and query parameters
 
 ```typescript
-import Router from '@koa/router';
-import Koa, { Context } from 'koa';
+import * as Router from '@koa/router';
+import * as Koa from 'koa';
+import { Context } from 'koa';
 import { asNumber, isObject, isString, maybeAsNumber } from 'validata';
 import { params, query, Statuses, validate } from 'validata-koa';
 
@@ -100,19 +102,19 @@ app.listen(8081);
 Testing it out...
 
 ```bash
-curl -XPOST localhost:8081/foo
+curl -X POST localhost:8081/foo
 # status=400
 # {"issues":[{"path":[":","id"],"value":"foo","reason":"no-conversion","info":{"toType":"number"}}]}
 
-curl -XPOST localhost:8081/12
+curl -X POST localhost:8081/12
 # status=400
 # {"issues":[{"path":["?","filter"],"reason":"not-defined"}]}
 
-curl -XPOST localhost:8081/12?filter=test
+curl -X POST localhost:8081/12?filter=test
 # status=200
 # {"id":12,"filter":"test"}
 
-curl -XPOST localhost:8081/-2?filter=test
+curl -X POST localhost:8081/-2?filter=test
 # status=400
 # {"issues":[{"path":[":","id"],"value":-2,"reason":"min","info":{"min":0}}]}
 ```

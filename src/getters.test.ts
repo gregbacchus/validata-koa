@@ -1,10 +1,11 @@
 import { describeGiven, when } from '@geeebe/jest-bdd';
-import Router from '@koa/router';
+import * as Router from '@koa/router';
 import { internet, name, random } from 'faker';
 import { Server } from 'http';
-import Koa, { Context } from 'koa';
-import bodyParser from 'koa-bodyparser';
-import request from 'supertest';
+import * as Koa from 'koa';
+import { Context } from 'koa';
+import * as bodyParser from 'koa-bodyparser';
+import * as request from 'supertest';
 import { asNumber, isObject, isString, Issue, maybeString } from 'validata';
 import validator from 'validator';
 import { body, headers, params } from './getters';

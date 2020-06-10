@@ -1,5 +1,6 @@
-import Router from '@koa/router';
-import Koa, { Context } from 'koa';
+import * as Router from '@koa/router';
+import * as Koa from 'koa';
+import { Context } from 'koa';
 import { asNumber, isObject, isString, maybeAsNumber } from 'validata';
 import { params, query, Statuses, validate } from '..';
 

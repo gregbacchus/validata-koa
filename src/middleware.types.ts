@@ -1,4 +1,4 @@
-import Router from '@koa/router';
+import * as Router from '@koa/router';
 import { ParameterizedContext } from 'koa';
 
 interface WithRequestBody {

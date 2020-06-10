@@ -1,6 +1,7 @@
-import Router from '@koa/router';
-import Koa, { Context } from 'koa';
-import bodyParser from 'koa-bodyparser';
+import * as Router from '@koa/router';
+import * as Koa from 'koa';
+import { Context } from 'koa';
+import * as bodyParser from 'koa-bodyparser';
 import { asNumber, isObject, isString, maybeString } from 'validata';
 import validator from 'validator';
 import { body, Statuses, validate } from '../';
