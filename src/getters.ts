@@ -2,10 +2,26 @@ import { Context } from 'koa';
 import { isIssue, ValueProcessor } from 'validata';
 import { ValidationError } from './validation-error';
 
-export const body = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.request.body as unknown);
-export const headers = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.header as unknown, '#');
-export const params = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.params as unknown, ':');
-export const query = <T>(ctx: Context, check: ValueProcessor<T>): T => base(check, () => ctx.query as unknown, '?');
+type BodyContext = Partial<Context> & {
+  request?: { body?: unknown; }
+}
+
+type HeaderContext = Partial<Context> & {
+  header?: unknown;
+}
+
+type ParamsContext = Partial<Context> & {
+  params?: unknown;
+}
+
+type QueryContext = Partial<Context> & {
+  query?: unknown;
+}
+
+export const body = <T>(ctx: BodyContext, check: ValueProcessor<T>): T => base(check, () => ctx.request?.body as unknown);
+export const headers = <T>(ctx: HeaderContext, check: ValueProcessor<T>): T => base(check, () => ctx.header as unknown, '#');
+export const params = <T>(ctx: ParamsContext, check: ValueProcessor<T>): T => base(check, () => ctx.params, ':');
+export const query = <T>(ctx: QueryContext, check: ValueProcessor<T>): T => base(check, () => ctx.query as unknown, '?');
 
 export const base = <T>(check: ValueProcessor<T>, value: () => unknown, nest?: string | number): T => {
   const result = check.process(value());
