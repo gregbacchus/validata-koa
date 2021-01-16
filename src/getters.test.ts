@@ -1,4 +1,4 @@
-import { describeGiven, when } from '@geeebe/jest-bdd';
+import { describeGiven, then, when } from '@geeebe/jest-bdd';
 import * as Router from '@koa/router';
 import { internet, name, random } from 'faker';
 import { Server } from 'http';
@@ -46,7 +46,7 @@ describeGiven('koa is configured with no checks', () => {
       .post('/12')
       .send({});
 
-    it('will succeed', async () => {
+    then('it will succeed', async () => {
       const response = await promise;
 
       expect(response.status).toBe(Statuses.OK);
@@ -78,7 +78,7 @@ describe('params', () => {
         .post('/12')
         .send({});
 
-      it('will succeed', async () => {
+      then('it will succeed', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.OK);
@@ -94,7 +94,7 @@ describe('params', () => {
         .post('/testing')
         .send({});
 
-      it('will fail', async () => {
+      then('it will fail', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
@@ -130,7 +130,7 @@ describe('headers', () => {
         .set({ 'x-my-header': '12345' })
         .send({});
 
-      it('will succeed', async () => {
+      then('it will succeed', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.OK);
@@ -147,7 +147,7 @@ describe('headers', () => {
         .set({ 'x-my-header': 'testing' })
         .send({});
 
-      it('will fail', async () => {
+      then('it will fail', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
@@ -186,7 +186,7 @@ describe('request body', () => {
         .post('/12')
         .send({});
 
-      it('will fail with 2 issues', async () => {
+      then('it will fail with 2 issues', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
@@ -212,7 +212,7 @@ describe('request body', () => {
         .post('/12')
         .send(data);
 
-      it('will succeed and coerce age', async () => {
+      then('it will succeed and coerce age', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.OK);
@@ -238,7 +238,7 @@ describe('request body', () => {
         .post('/12')
         .send(data);
 
-      it('will fail', async () => {
+      then('it will fail', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);

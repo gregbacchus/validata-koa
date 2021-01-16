@@ -1,4 +1,4 @@
-import { describeGiven, when } from '@geeebe/jest-bdd';
+import { describeGiven, then, when } from '@geeebe/jest-bdd';
 import * as Router from '@koa/router';
 import { address, internet, name } from 'faker';
 import { Server } from 'http';
@@ -46,7 +46,7 @@ describe('validate', () => {
         .post('/')
         .send({});
 
-      it('will succeed', async () => {
+      then('it will succeed', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.OK);
@@ -80,7 +80,7 @@ describe('validate', () => {
         .post('/')
         .send({});
 
-      it('will fail with status 400', async () => {
+      then('it will fail with status 400', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
@@ -102,7 +102,7 @@ describe('validate', () => {
         .post('/')
         .send({});
 
-      it('will fail with status 500', async () => {
+      then('it will fail with status 500', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.SERVER_ERROR);
@@ -124,7 +124,7 @@ describe('validate', () => {
         .post('/')
         .send({});
 
-      it('will return status 400', async () => {
+      then('it will return status 400', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
@@ -164,7 +164,7 @@ describe('validateRequest', () => {
         .post('/')
         .send({});
 
-      it('will succeed', async () => {
+      then('it will succeed', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.OK);
@@ -198,7 +198,7 @@ describe('validateRequest', () => {
         .post('/')
         .send({});
 
-      it('will fail validation', async () => {
+      then('it will fail validation', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);
@@ -223,7 +223,7 @@ describe('validateRequest', () => {
         .post('/')
         .send(requestBody);
 
-      it('will succeed, and respond with coerced values', async () => {
+      then('it will succeed, and respond with coerced values', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.OK);
@@ -250,7 +250,7 @@ describe('validateRequest', () => {
         .post('/')
         .send(requestBody);
 
-      it('will fail validation', async () => {
+      then('it will fail validation', async () => {
         const response = await promise;
 
         expect(response.status).toBe(Statuses.BAD_REQUEST);

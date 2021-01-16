@@ -49,7 +49,7 @@
         "--runInBand",
         "--no-cache",
         "--config",
-        "jest.config.jsson",
+        "jest.config.json",
         "--runTestsByPath",
         "${relativeFile}"
       ],
