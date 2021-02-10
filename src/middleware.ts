@@ -57,7 +57,9 @@ export const validate = (): Middleware<any, RequestContext> => async (ctx: Reque
   try {
     await next();
   } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!((err instanceof ValidationError || err.constructor.name === 'ValidationError') && 'issues' in err)) throw err;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
     ctx.body = { issues: err.issues };
     ctx.status = Statuses.BAD_REQUEST;
   }
