@@ -1,6 +1,6 @@
 {
   "name": "validata-koa",
-  "version": "2.0.19",
+  "version": "3.0.2",
   "description": "Type safe data validation and sanitization for Koa",
   "keywords": [
     "typescript",
@@ -65,6 +65,6 @@
     "@types/koa": "^2.11.6",
     "@types/koa__router": "^8.0.3",
     "koa": "^2.13.0",
-    "validata": "^2.1.32"
+    "validata": "^3.0.1"
   }
 }
