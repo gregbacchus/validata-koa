@@ -13,18 +13,18 @@ export interface ValidateOptions<B, H, Q> {
 export const validateRequest = <B, H, Q>({ body, query, header }: ValidateOptions<B, H, Q>
 ): Middleware<any, RequestContext> => async (ctx: RequestContext, next: Next): Promise<void> => {
   const bodyResult = body?.process(ctx.request.body);
-  const headerResult = header?.process(ctx.header);
-  const queryResult = query?.process(ctx.query);
+  const headerResult = header?.process(ctx.header, ['#']);
+  const queryResult = query?.process(ctx.query, ['?']);
 
   const issues: Issue[] = [];
   if (isIssue(bodyResult)) {
     issues.push(...bodyResult.issues);
   }
   if (isIssue(headerResult)) {
-    issues.push(...headerResult.issues.map((issue) => issue.nest('#')));
+    issues.push(...headerResult.issues);
   }
   if (isIssue(queryResult)) {
-    issues.push(...queryResult.issues.map((issue) => issue.nest('?')));
+    issues.push(...queryResult.issues);
   }
   if (issues.length > 0) {
     ctx.body = issues;
