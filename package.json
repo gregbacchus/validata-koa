@@ -1,6 +1,6 @@
 {
   "name": "validata-koa",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Type safe data validation and sanitization for Koa",
   "keywords": [
     "typescript",
