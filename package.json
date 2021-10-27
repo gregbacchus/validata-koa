@@ -63,9 +63,9 @@
   },
   "dependencies": {
     "@koa/router": "^10.0.0",
-    "@types/koa": "^2.13.1",
+    "@types/koa": "^2.13.4",
     "@types/koa__router": "^8.0.4",
-    "koa": "^2.13.1",
+    "koa": "^2.13.4",
     "validata": "^4.0.14"
   }
 }
