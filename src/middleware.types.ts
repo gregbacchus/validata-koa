@@ -1,5 +1,5 @@
 import * as Router from '@koa/router';
-import { ParameterizedContext } from 'koa';
+import { ParameterizedContext, Request } from 'koa';
 
 interface WithRequestBody {
   request: Request & { body: unknown };
