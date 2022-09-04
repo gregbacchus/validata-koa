@@ -56,11 +56,14 @@ export const validateRequest = <B, H, Q>({ body, query, header }: ValidateOption
 export const validate = (): Middleware<any, RequestContext> => async (ctx: RequestContext, next: Next): Promise<void> => {
   try {
     await next();
-  } catch (err) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!((err instanceof ValidationError || err.constructor.name === 'ValidationError') && 'issues' in err)) throw err;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
-    ctx.body = { issues: err.issues };
-    ctx.status = Statuses.BAD_REQUEST;
+  } catch (err: unknown) {
+    if (!(err instanceof Error)) throw err;
+
+    if (err instanceof ValidationError || (err.constructor.name === 'ValidationError' && 'issues' in err)) {
+      ctx.body = { issues: err.issues };
+      ctx.status = Statuses.BAD_REQUEST;
+    }
+
+    throw err;
   }
 };
